@@ -1,17 +1,16 @@
 package com.app;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.io.InputStream;
 
-public class Bdconnection{
+public class Bdconnection {
+
     private static String url;
     private static String user;
     private static String password;
-
 
     static {
         try {
@@ -21,12 +20,11 @@ public class Bdconnection{
                     .getClassLoader()
                     .getResourceAsStream("db.properties");
 
-            if(input == null){
-                throw new RuntimeException("Fichier db.properties introuvable dan resoures/");
-
+            if (input == null) {
+                throw new RuntimeException("Fichier db.properties introuvable dans resources/");
             }
-            props.load(input);
 
+            props.load(input);
 
             url = props.getProperty("db.url");
             user = props.getProperty("db.user");
@@ -34,20 +32,17 @@ public class Bdconnection{
 
             Class.forName("org.postgresql.Driver");
 
-        }
-        catch(Exception e){
-            throw new RuntimeException("Erreur lors du chargement DB",e);
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors du chargement DB", e);
         }
     }
-    public static Connection getConnection(){
+
+    // 🔵 Méthode standard pour obtenir une connexion
+    public Connection getDBConnection() {
         try {
-            return DriverManager.getConnection(url,user,password);
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            throw new RuntimeException("Impossible de se connecter à la base PostgreSQL", e);
         }
-        catch(SQLException e){
-            throw new RuntimeException("Impossible de se connecter à la base Postgresql",e);
-        }
-
     }
-
-
 }

@@ -6,7 +6,7 @@ CREATE TABLE product (
 
 );
 
-CREATE TABLE category (
+CREATE TABLE product_category (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     product_id INT REFERENCES product(id)
